@@ -1,0 +1,90 @@
+services:
+  vpn-client:
+    image: vpn-client:latest
+    container_name: vpn-client
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/ppp:/dev/ppp
+    environment:
+      VPN_SERVER: "168.231.92.189"
+      VPN_PSK: "eTxkgkWhX2syE5BBudq2"
+      VPN_USER: "widnode1"
+      VPN_PASSWORD: "AuZrDVvm6CMZhEjZ"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "ip -4 addr show dev ppp0 | grep -q 'inet '"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+
+  widnode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: widnode-supervisor:mono
+    privileged: true
+    container_name: widnode-supervisor
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    
+    devices:
+      - /dev/gpiochip0:/dev/gpiochip0
+      - /dev/gpiochip1:/dev/gpiochip1
+      - /dev/gpiochip2:/dev/gpiochip2
+      - /dev/gpiochip3:/dev/gpiochip3
+      - /dev/gpiochip4:/dev/gpiochip4
+      - /dev/cdc-wdm0:/dev/cdc-wdm0
+    volumes:
+      - widnode_data:/data
+      # - /var/run/dbus:/var/run/dbus
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /etc/machine-id:/etc/machine-id:ro
+    environment:
+      # Config general
+      DBUS_SYSTEM_BUS_ADDRESS: unix:path=/var/run/dbus/system_bus_socket
+      CONFIG_PATH: /data/config.ini
+      GPIOCHIP: /dev/gpiochip0
+      GPIOLINE: "6"
+      ETH_IF: ethernet0
+      WIFI_IF: mlan0
+
+      # === AP: UNA sola fuente de verdad (entorno) ===
+      AP_IF: uap0
+      AP_ADDR: 192.168.17.1
+      AP_NETMASK: 255.255.255.0
+      AP_DHCP_START: 192.168.17.100
+      AP_DHCP_END: 192.168.17.200
+      AP_DNS: 192.168.17.1
+      AP_SSID: WIDNODE_AP
+      AP_PSK: "widnode1234"
+      AP_CH: "6"
+      AP_CC: "AR"
+      AP_NAT: 0
+      AP_MASK: "255.255.255.0"
+      AP_LOG_DNS: "0"   # sin log de consultas en stdout
+
+
+      # Timings GPIO (opcional)
+      POLL_INTERVAL_SEC: "1.0"
+      DEBOUNCE_SAMPLES: "3"
+      DEBOUNCE_DELAY_SEC: "0.1"
+  
+
+
+
+volumes:
+  widnode_data: {}

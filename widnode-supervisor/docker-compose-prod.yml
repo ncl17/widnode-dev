@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  widnode:
+    image: ghcr.io/ncl17/widnode-supervisor@sha256:cfffd87a61e61f6327ea024b2f8297b83c7cd7736a805ba62d50d1041d9a28f6
+    container_name: widnode-supervisor
+    # Si tu app necesita DBus/NetworkManager del host:
+    network_mode: host
+    # RECOMENDACIÓN: si puedes, elimina privileged y deja solo caps mínimas.
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /data:/data
+    environment:
+      CONFIG_PATH: "/data/config.ini"
+      TZ: "America/Argentina/Buenos_Aires"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "exit 0"]  # cambia por tu check real
+
+  vpn-client:
+    image: ghcr.io/ncl17/vpn-client:1.2.5
+    container_name: vpn-client
+    network_mode: host
+    cap_add: ["NET_ADMIN"]
+    devices:
+      - /dev/net/tun:/dev/net/tun
+      - /dev/ppp:/dev/ppp
+    environment:
+      # Mapeo de tus variables .env a las que espera el entrypoint
+      LNS_IP: "${VPN_SERVER}"
+      PSK: "${VPN_PSK}"
+      PPP_USER: "${VPN_USER}"
+      PPP_PASS: "${VPN_PASSWORD}"
+      # Opcionales (defaults razonables)
+      BOOT_RETRIES: "15"
+      PPP_MTU: "1280"
+      PPP_MRU: "1280"
+      XL2TPD_SECTION: "vpn-remote"  # si cambiás el nombre del [lac]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "ip -4 addr show dev ppp0 | grep -q 'inet '"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s

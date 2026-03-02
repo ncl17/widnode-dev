@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>wIDNode Gateway — Configuración</title>
+  <style>
+    :root{
+      --bg:#f5f7fb; --fg:#1f2937; --muted:#6b7280; --card:#fff;
+      --pri:#2563eb; --pri-600:#1e40af; --border:#e5e7eb; --danger:#dc2626;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,Segoe UI,Arial}
+    h1{font-size:20px;margin:0}
+    h2{font-size:16px;margin:0}
+
+    .container{max-width:980px;margin:24px auto;padding:0 16px}
+    .toolbar{
+      position:sticky; top:0; z-index:10;
+      display:flex; align-items:center; gap:12px;
+      background:rgba(245,247,251,.9); backdrop-filter:saturate(1.1) blur(6px);
+      border-bottom:1px solid var(--border); padding:12px 16px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:10px; border:1px solid transparent;
+      background:var(--pri); color:#fff; cursor:pointer; font-weight:600;
+      touch-action:manipulation;
+    }
+    .btn:hover{background:var(--pri-600)}
+    .btn.sec{background:#fff;color:var(--fg);border-color:var(--border)}
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+    @media(min-width:900px){ .grid{grid-template-columns:1fr 1fr} }
+
+    details.card{
+      background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+      box-shadow:0 1px 2px rgba(0,0,0,.04)
+    }
+    details.card > summary{
+      list-style:none; cursor:pointer; user-select:none;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px; border-bottom:1px solid var(--border);
+    }
+    details.card > summary::-webkit-details-marker{display:none}
+    .card-body{padding:16px}
+    details.card:not([open]) .card-body{display:none}
+
+    .section-muted{color:var(--muted);font-size:12px;margin-left:8px}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, monospace; background:#f1f5f9;
+         border:1px solid var(--border); border-radius:6px; padding:1px 6px; font-size:12px}
+
+    .row{display:grid;grid-template-columns:160px 1fr;gap:10px;align-items:center;margin-bottom:10px}
+    .row label{color:var(--muted)}
+    .row input[type="text"], .row input[type="number"], .row select, .row textarea{
+      width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:#fff
+    }
+    .row textarea{min-height:70px; resize:vertical}
+    .row .inline{
+      display:flex; align-items:center; gap:10px;
+    }
+    .disabled .row input, .disabled .row select, .disabled .row textarea{opacity:.55}
+
+    .spinner{
+      width:18px;height:18px;border:2px solid #cbd5e1;border-top-color:var(--pri);
+      border-radius:50%; display:inline-block; animation:spin .8s linear infinite; vertical-align:text-bottom;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+    .loading-card{
+      background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px;
+      display:flex; gap:10px; align-items:center;
+    }
+  </style>
+
+  <script>
+    // --- utilidades ---
+    function idFor(section){
+      return "section-" + String(section).replace(/[^a-zA-Z0-9]+/g,"-").replace(/^-|-$/g,"").toLowerCase();
+    }
+    const isInteractive = el => el && ['INPUT','BUTTON','SELECT','TEXTAREA','LABEL'].includes(el.tagName);
+
+    function toggleFields(section){
+      const sid = idFor(section);
+      const chk = document.getElementById(`${sid}-enabled`);
+      const card = document.getElementById(`${sid}-card`);
+      if(!chk || !card) return;
+      const inputs = card.querySelectorAll(`.${sid}-field`);
+      inputs.forEach(el => el.disabled = !chk.checked);
+      card.classList.toggle("disabled", !chk.checked);
+    }
+
+    function toggleEthernetMode(){
+      const modeSel = document.getElementById('Ethernet-mode');
+      const block = document.getElementById('ethernet-static');
+      if(!modeSel || !block) return;
+      block.style.display = (modeSel.value === 'static') ? 'block' : 'none';
+    }
+
+    async function scanBluetooth(){
+      const btn = document.getElementById('btn-scan-bt');
+      const list = document.getElementById('bluetooth-list');
+      if(!btn || !list) return;
+      btn.disabled = true;
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner"></span> Escaneando…';
+      list.innerHTML = '<div class="loading-card"><span class="spinner"></span><span>Buscando dispositivos Bluetooth…</span></div>';
+      try{
+        const r = await fetch('/scan-bluetooth', {method:'GET'});
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        const data = await r.json();
+        if(!data || Object.keys(data).length===0){
+          list.innerHTML = '<p class="section-muted">No se encontraron dispositivos.</p>';
+          return;
+        }
+        list.innerHTML = Object.entries(data).map(([mac,info]) => `
+          <div class="card" style="padding:12px; border:1px solid var(--border); border-radius:12px; margin-bottom:8px">
+            <strong>${(info && info.name) ? info.name : 'Unknown'}</strong>
+            <div class="section-muted">MAC: ${mac} · RSSI: ${(info && info.RSSI) ? info.RSSI : 'N/A'}</div>
+          </div>
+        `).join('');
+      }catch(e){
+        list.innerHTML = `<p style="color:var(--danger)">Error: ${e.message}</p>`;
+      }finally{
+        btn.disabled = false; btn.innerHTML = original;
+      }
+    }
+
+    async function submitTimezone(e){
+      e.preventDefault();
+      const form = document.getElementById('tz-form');
+      const btn = document.getElementById('btn-tz');
+      if(!form || !btn) return;
+      const original = btn.innerText;
+      btn.disabled = true; btn.innerHTML = 'Actualizando…';
+      try{
+        const fd = new FormData(form);
+        const r = await fetch('/update-timezone', {method:'POST', body:fd});
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        alert('Zona horaria actualizada.');
+        location.reload();
+      }catch(err){
+        alert('No se pudo actualizar: '+err.message);
+      }finally{
+        btn.disabled = false; btn.innerHTML = original;
+      }
+    }
+
+    function bindMobileSafeClick(el, handler){
+      if(!el) return;
+      const wrap = (ev)=>{ ev.preventDefault(); ev.stopPropagation(); handler(ev); };
+      el.addEventListener('click', wrap, false);
+      el.addEventListener('touchend', wrap, {passive:false});
+    }
+
+    function confirmReboot(){
+      return confirm("Recordá cambiar el modo de ejecución antes de reiniciar. ¿Reiniciar el sistema?");
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // secciones con "enabled"
+      document.querySelectorAll('input[type="checkbox"][id$="-enabled"]').forEach(cb=>{
+        const section = cb.dataset.section;
+        toggleFields(section);
+        cb.addEventListener('change', ()=>toggleFields(section), false);
+        cb.addEventListener('click',  e=> e.stopPropagation(), false);
+        cb.addEventListener('touchend', e=> e.stopPropagation(), {passive:true});
+      });
+
+      const ethMode = document.getElementById('Ethernet-mode');
+      if(ethMode){
+        toggleEthernetMode();
+        ethMode.addEventListener('change', toggleEthernetMode);
+      }
+
+      if (window.matchMedia('(min-width:900px)').matches){
+        document.querySelectorAll('details.card').forEach(d=>d.setAttribute('open',''));
+      }
+
+      document.querySelectorAll('details.card > summary').forEach(summary => {
+        summary.setAttribute('tabindex','0');
+        const details = summary.parentElement;
+        const toggle = (e) => {
+          if (isInteractive(e.target)) return;
+          if (e.type === 'touchend') e.preventDefault();
+          e.stopPropagation();
+          details.open = !details.open;
+        };
+        summary.addEventListener('click', toggle, false);
+        summary.addEventListener('touchend', toggle, {passive:false});
+      });
+
+      bindMobileSafeClick(document.getElementById('btn-scan-bt'), ()=>scanBluetooth());
+      const tzForm = document.getElementById('tz-form');
+      if (tzForm) tzForm.addEventListener('submit', (e)=>submitTimezone(e), false);
+    });
+  </script>
+</head>
+
+<body>
+  <div class="toolbar">
+    <h1>wIDNode Gateway — Configuración</h1>
+    <div style="flex:1"></div>
+    <button class="btn" type="submit" form="config-form">Guardar cambios</button>
+    <form method="post" action="/restart" onsubmit="return confirmReboot()">
+      <button class="btn sec" type="submit">Reiniciar</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <form id="config-form" method="post" action="{{ url_for('update') }}">
+      <div class="grid">
+
+        {# --------- GENERAL (failover/preferred) --------- #}
+        {% if config.get('General') %}
+          {% set section = 'General' %}
+          {% set keys = config.get('General') %}
+          {% set sid = 'section-' + section|replace(' ', '-')|replace('/', '-')|replace('.', '-')|replace('_','-')|lower %}
+          <details class="card" id="{{ sid }}-card">
+            <summary class="card-header">
+              <div style="display:flex;align-items:center;gap:10px">
+                <h2>General</h2>
+                <span class="section-muted">ruteo por defecto</span>
+              </div>
+              <div class="section-actions"><span class="kbd">General</span></div>
+            </summary>
+            <div class="card-body">
+              <div class="row">
+                <label for="{{ sid }}-failover">Failover automático</label>
+                <div class="inline">
+                  <input type="checkbox"
+                         id="{{ sid }}-failover"
+                         name="General-failover"
+                         {% if keys.get('failover','true')|lower == 'true' %}checked{% endif %}/>
+                  <span class="section-muted">Si está habilitado, la interfaz con menor <span class="kbd">metric</span> será el default route. Si no, podés elegir una preferida y las demás no instalarán default.</span>
+                </div>
+              </div>
+              <div class="row">
+                <label for="{{ sid }}-preferred">Preferred</label>
+                <select id="{{ sid }}-preferred" name="General-preferred">
+                  {% set pref = keys.get('preferred','')|lower %}
+                  <option value=""        {% if pref=='' %}selected{% endif %}>— (usar métricas)</option>
+                  <option value="ethernet"{% if pref=='ethernet' %}selected{% endif %}>Ethernet</option>
+                  <option value="wifi"    {% if pref=='wifi' %}selected{% endif %}>Wi-Fi</option>
+                  <option value="lte"     {% if pref=='lte' %}selected{% endif %}>LTE</option>
+                </select>
+              </div>
+            </div>
+          </details>
+        {% endif %}
+
+        {# --------- RESTO DE SECCIONES --------- #}
+        {% for section, keys in config.items() if section.lower() not in ['default','general'] %}
+          {% set sid = 'section-' + section|replace(' ', '-')|replace('/', '-')|replace('.', '-')|replace('_','-')|lower %}
+          {% set is_net = section in ['Ethernet','WiFi','LTE','LTE-4G'] %}
+
+          <details class="card" id="{{ sid }}-card">
+            <summary class="card-header">
+              <div style="display:flex;align-items:center;gap:10px">
+                {% if section != 'API' %}
+                  <input type="checkbox"
+                         id="{{ sid }}-enabled"
+                         data-section="{{ section }}"
+                         name="{{ section }}-enabled"
+                         {% if keys.get('enabled','false')|lower == 'true' %}checked{% endif %}/>
+                  <h2>{{ section }}</h2>
+                  <span class="section-muted">habilitar</span>
+                {% else %}
+                  <h2>{{ section }}</h2>
+                {% endif %}
+              </div>
+              <div class="section-actions"><span class="kbd">{{ section }}</span></div>
+            </summary>
+
+            <div class="card-body">
+              {# ---- ETHERNET: modo + estáticos + nuevos campos ---- #}
+              {% if section == 'Ethernet' %}
+                <div class="row">
+                  <label for="Ethernet-mode">Mode</label>
+                  <select name="Ethernet-mode" id="Ethernet-mode" class="{{ sid }}-field">
+                    <option value="dhcp"  {% if keys.get('mode','dhcp') == 'dhcp' %}selected{% endif %}>DHCP</option>
+                    <option value="static"{% if keys.get('mode') == 'static' %}selected{% endif %}>Static</option>
+                  </select>
+                </div>
+
+                <div id="ethernet-static" style="display:none">
+                  <div class="row">
+                    <label>IP Address</label>
+                    <input type="text" name="Ethernet-ip_address" class="{{ sid }}-field" value="{{ keys.get('ip_address','')|e }}">
+                  </div>
+                  <div class="row">
+                    <label>Netmask</label>
+                    <input type="text" name="Ethernet-netmask" class="{{ sid }}-field" value="{{ keys.get('netmask','')|e }}">
+                  </div>
+                  <div class="row">
+                    <label>Gateway</label>
+                    <input type="text" name="Ethernet-gateway" class="{{ sid }}-field" value="{{ keys.get('gateway','')|e }}">
+                  </div>
+                  <div class="row">
+                    <label>DNS</label>
+                    <input type="text" name="Ethernet-dns" class="{{ sid }}-field" value="{{ keys.get('dns','')|e }}">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-internet">Internet (default route)</label>
+                  <div class="inline">
+                    <input type="checkbox"
+                           id="{{ sid }}-internet"
+                           class="{{ sid }}-field"
+                           name="Ethernet-internet"
+                           {% if keys.get('internet','false')|lower == 'true' %}checked{% endif %}/>
+                    <span class="section-muted">Si está activado, esta interfaz puede instalar el default route (según <span class="kbd">metric</span>).</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-metric">Metric</label>
+                  <input type="number" min="0" step="1"
+                         id="{{ sid }}-metric"
+                         class="{{ sid }}-field"
+                         name="Ethernet-metric"
+                         value="{{ keys.get('metric','')|e }}"
+                         placeholder="p.ej. 50 (más bajo = preferido)">
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-lan_routes">LAN routes</label>
+                  <textarea id="{{ sid }}-lan_routes"
+                            class="{{ sid }}-field"
+                            name="Ethernet-lan_routes"
+                            placeholder="CIDRs separados por coma, p.ej. 192.168.50.0/24,10.10.0.0/16">{{ keys.get('lan_routes','')|e }}</textarea>
+                </div>
+
+              {# ---- WIFI: campos conocidos + nuevos campos ---- #}
+              {% elif section == 'WiFi' %}
+                <div class="row">
+                  <label for="{{ sid }}-ssid">SSID</label>
+                  <input type="text" id="{{ sid }}-ssid" class="{{ sid }}-field" name="WiFi-ssid" value="{{ keys.get('ssid','')|e }}">
+                </div>
+                <div class="row">
+                  <label for="{{ sid }}-psk">PSK</label>
+                  <input type="text" id="{{ sid }}-psk" class="{{ sid }}-field" name="WiFi-psk" value="{{ keys.get('psk','')|e }}">
+                </div>
+                <div class="row">
+                  <label for="{{ sid }}-hidden">Hidden</label>
+                  <div class="inline">
+                    <input type="checkbox"
+                           id="{{ sid }}-hidden"
+                           class="{{ sid }}-field"
+                           name="WiFi-hidden"
+                           {% if keys.get('hidden','false')|lower == 'true' %}checked{% endif %}/>
+                    <span class="section-muted">Red oculta (no emite SSID).</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-internet">Internet (default route)</label>
+                  <div class="inline">
+                    <input type="checkbox"
+                           id="{{ sid }}-internet"
+                           class="{{ sid }}-field"
+                           name="WiFi-internet"
+                           {% if keys.get('internet','false')|lower == 'true' %}checked{% endif %}/>
+                    <span class="section-muted">Permite que Wi-Fi instale default route (según <span class="kbd">metric</span>).</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-metric">Metric</label>
+                  <input type="number" min="0" step="1"
+                         id="{{ sid }}-metric"
+                         class="{{ sid }}-field"
+                         name="WiFi-metric"
+                         value="{{ keys.get('metric','')|e }}"
+                         placeholder="p.ej. 300">
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-lan_routes">LAN routes</label>
+                  <textarea id="{{ sid }}-lan_routes"
+                            class="{{ sid }}-field"
+                            name="WiFi-lan_routes"
+                            placeholder="CIDRs separados por coma">{{ keys.get('lan_routes','')|e }}</textarea>
+                </div>
+
+              {# ---- LTE / LTE-4G: campos conocidos + nuevos campos ---- #}
+              {% elif section in ['LTE','LTE-4G'] %}
+                <div class="row">
+                  <label for="{{ sid }}-apn">APN</label>
+                  <input type="text" id="{{ sid }}-apn" class="{{ sid }}-field" name="{{ section }}-apn" value="{{ keys.get('apn','')|e }}">
+                </div>
+                <div class="row">
+                  <label for="{{ sid }}-user">User</label>
+                  <input type="text" id="{{ sid }}-user" class="{{ sid }}-field" name="{{ section }}-user" value="{{ keys.get('user','')|e }}">
+                </div>
+                <div class="row">
+                  <label for="{{ sid }}-password">Password</label>
+                  <input type="text" id="{{ sid }}-password" class="{{ sid }}-field" name="{{ section }}-password" value="{{ keys.get('password','')|e }}">
+                </div>
+                <div class="row">
+                  <label for="{{ sid }}-pin">PIN</label>
+                  <input type="text" id="{{ sid }}-pin" class="{{ sid }}-field" name="{{ section }}-pin" value="{{ keys.get('pin','')|e }}">
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-internet">Internet (default route)</label>
+                  <div class="inline">
+                    <input type="checkbox"
+                           id="{{ sid }}-internet"
+                           class="{{ sid }}-field"
+                           name="{{ section }}-internet"
+                           {% if keys.get('internet','false')|lower == 'true' %}checked{% endif %}/>
+                    <span class="section-muted">Si está activo, LTE puede ser la salida a Internet.</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-metric">Metric</label>
+                  <input type="number" min="0" step="1"
+                         id="{{ sid }}-metric"
+                         class="{{ sid }}-field"
+                         name="{{ section }}-metric"
+                         value="{{ keys.get('metric','')|e }}"
+                         placeholder="p.ej. 100">
+                </div>
+
+                <div class="row">
+                  <label for="{{ sid }}-lan_routes">LAN routes</label>
+                  <textarea id="{{ sid }}-lan_routes"
+                            class="{{ sid }}-field"
+                            name="{{ section }}-lan_routes"
+                            placeholder="CIDRs separados por coma">{{ keys.get('lan_routes','')|e }}</textarea>
+                </div>
+
+              {# ---- Resto de secciones: render genérico de claves ---- #}
+              {% else %}
+                {% for key, value in keys.items() if key != 'enabled' %}
+                  <div class="row">
+                    <label for="{{ sid }}-{{ key }}">{{ key }}</label>
+                    <input type="text"
+                           class="{{ sid }}-field"
+                           id="{{ sid }}-{{ key }}"
+                           name="{{ section }}-{{ key }}"
+                           value="{{ value|e }}">
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </details>
+        {% endfor %}
+      </div>
+    </form>
+
+    <div class="grid" style="margin-top:24px">
+      <details class="card" id="tz-card" open>
+        <summary class="card-header"><h2>Cambiar zona horaria</h2></summary>
+        <div class="card-body">
+          <form id="tz-form" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <label for="timezone">Timezone</label>
+            <select name="timezone" id="timezone" style="min-width:260px">
+              {% for tz in timezones %}
+                <option value="{{ tz }}" {% if tz == current_timezone %}selected{% endif %}>{{ tz }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn sec" id="btn-tz" type="submit">Actualizar</button>
+          </form>
+          <p class="section-muted" style="margin-top:8px">Actual: <span class="kbd">{{ current_timezone }}</span></p>
+        </div>
+      </details>
+
+      <details class="card" id="bt-card" open>
+        <summary class="card-header"><h2>Escaneo Bluetooth</h2></summary>
+        <div class="card-body">
+          <button class="btn sec" id="btn-scan-bt" type="button">Scan Bluetooth Devices</button>
+          <div id="bluetooth-list" style="margin-top:12px">
+            <p class="section-muted">Hacé click en “Scan Bluetooth Devices” para comenzar.</p>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div style="height:24px"></div>
+  </div>
+</body>
+</html>

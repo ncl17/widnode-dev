@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Backups disponibles</title>
+</head>
+<body>
+    <h1>📦 Backups available</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <ul>
+    {% for backup in backups %}
+        <li>
+            🗓️ {{ backup.fecha }}
+            <form method="POST" action="{{ url_for('restore_specific_backup', filename=backup.filename) }}" style="display:inline;">
+                <button type="submit">Restaurar</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <a href="/">⬅ Back</a>
+</body>
+</html>

@@ -1,0 +1,60 @@
+POST https://apiwidnode.id-ingenieria.com/api/login
+Content-Type: application/json
+
+{
+    "email": "ntellechea@gmail.com",
+    "password": "ncl128"
+}
+
+
+
+###
+https://apiwidnode.id-ingenieria.com/api/gateway/2C:3B:70:DF:75:02
+
+###
+https://apiwidnode.id-ingenieria.com/api/widnodes/
+
+###
+
+https://apiwidnode.id-ingenieria.com/api/scheduletask/tasks/29/pending
+
+###
+POST https://apiwidnode.id-ingenieria.com/api/login
+Content-Type: application/json
+
+{
+    "email": "ntellechea@gmail.com",
+    "password": "ncl128"
+}
+
+
+###
+
+POST https://apiwidnodetest.id-ingenieria.com/api/alarm/00:80:E1:26:18:10
+Content-Type: application/json
+
+{
+            "alarm_rms": 8,
+            "alarm_vel": 0,
+            "fecha": "2024-06-12T15:30:00Z",
+            "med_x": 0,
+            "med_y": 0,
+            "med_z": 0,
+            "med_temp": 0,
+            "med_x_vel": 0,
+            "med_y_vel": 0,
+            "med_z_vel": 0
+        }
+
+
+
+
+###
+https://apiwidnode.id-ingenieria.com/api/gateway/nico
+
+###
+https://apiwidnode.id-ingenieria.com/api/widnodes/
+
+###
+
+https://apiwidnode.id-ingenieria.com/api/scheduletask/tasks/29/pending

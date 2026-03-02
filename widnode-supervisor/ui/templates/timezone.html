@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Timezone</title>
+</head>
+<body>
+    <h1>Change System Timezone</h1>
+    <form method="POST">
+        <label for="timezone">Select Timezone:</label>
+        <select name="timezone" id="timezone">
+            {% for tz in timezones %}
+                <option value="{{ tz }}">{{ tz }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Change Timezone</button>
+    </form>
+</body>
+</html>

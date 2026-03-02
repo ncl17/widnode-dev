@@ -1,0 +1,7 @@
+interface=uap0
+bind-interfaces
+dhcp-range={{AP_DHCP_START}},{{AP_DHCP_END}},255.255.255.0,12h
+dhcp-option=3,{{AP_ADDR}}
+dhcp-option=6,{{AP_ADDR}}
+log-queries
+log-dhcp

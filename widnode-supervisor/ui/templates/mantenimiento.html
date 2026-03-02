@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mantenimiento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form, .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .mensaje {
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Panel de Mantenimiento</h1>
+
+    <form method="POST">
+        <button type="submit" name="accion" value="restart-ssh">Reiniciar Servicio SSH</button>
+        <button type="submit" name="accion" value="gateway-mode" style="margin-left: 10px;">Cambiar a modo Gateway</button>
+    </form>
+
+    {% if mensaje %}
+    <div class="mensaje">{{ mensaje }}</div>
+    {% endif %}
+
+    <div class="section">
+        <h2>Estado de Red - IP</h2>
+        <pre>{{ estado_red['ip'] }}</pre>
+    </div>
+
+    <div class="section">
+        <h2>Estado de Red - NMCLI</h2>
+        <pre>{{ estado_red['nmcli'] }}</pre>
+    </div>
+
+    <div class="section">
+    <h2>Ejecutar Comando</h2>
+    <form method="POST">
+        <input type="hidden" name="accion" value="run-command">
+        <input type="text" name="comando" style="width: 100%; padding: 8px;" required>
+        <br><br>
+        <button type="submit">Ejecutar</button>
+    </form>
+</div>
+
+{% if salida %}
+<div class="section">
+    <h2>Salida del Comando</h2>
+    <pre>{{ salida }}</pre>
+</div>
+{% endif %}
+</body>
+</html>

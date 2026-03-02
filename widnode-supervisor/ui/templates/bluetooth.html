@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Device Scan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        #bluetooth-list {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .device {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .device:last-child {
+            border-bottom: none;
+        }
+        .device-info {
+            font-size: 14px;
+            color: #555;
+        }
+        .device-name {
+            font-weight: bold;
+            color: #007BFF;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bluetooth Device Scan</h1>
+    <button onclick="scanBluetooth()">Scan Bluetooth Devices</button>
+    <div id="bluetooth-list">
+        <p>Click "Scan Bluetooth Devices" to begin scanning...</p>
+    </div>
+
+    <script>
+function scanBluetooth() {
+    const list = document.getElementById('bluetooth-list');
+    list.innerHTML = '<p>Scanning for devices...</p>';
+    
+    fetch('/scan-bluetooth')
+        .then(response => response.json())
+        .then(data => {
+            list.innerHTML = ''; // Limpiar lista anterior
+
+            if (data.error) {
+                list.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+
+            Object.keys(data).forEach(mac => {
+                const device = data[mac];
+                const deviceDiv = document.createElement('div');
+                deviceDiv.className = 'device';
+                deviceDiv.innerHTML = `
+                    <div class="device-info">
+                        <span class="device-name">${device.name}</span><br>
+                        RSSI: ${device.rssi}
+                    </div>
+                `;
+                list.appendChild(deviceDiv);
+            });
+        })
+        .catch(error => {
+            list.innerHTML = `<p>Error scanning devices: ${error.message}</p>`;
+        });
+}
+
+
+    </script>
+</body>
+</html>
