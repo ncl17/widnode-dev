@@ -1,0 +1,6 @@
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/flash_driver.c:310:26:FD_WaitForSemAvailable	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/flash_driver.c:168:37:ProcessSingleFlashOperation	64	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/flash_driver.c:141:30:FD_EraseSingleSector	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/flash_driver.c:48:10:FD_EraseSectors	24	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/flash_driver.c:154:30:FD_WriteSingleData	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/flash_driver.c:102:10:FD_WriteData	24	static

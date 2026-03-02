@@ -1,0 +1,11 @@
+../../../../../../../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_bus.h:539:22:LL_AHB2_GRP1_EnableClock	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:151:10:HW_UART_Init	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:174:10:HW_UART_Receive_IT	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:197:10:HW_UART_Transmit_IT	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:220:17:HW_UART_Transmit	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:268:17:HW_UART_Transmit_DMA	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:328:10:HW_UART_Interrupt_Handler	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:351:10:HW_UART_DMA_Interrupt_Handler	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:380:10:HAL_UART_MspInit	64	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:412:10:HAL_UART_RxCpltCallback	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_uart.c:441:10:HAL_UART_TxCpltCallback	0	static

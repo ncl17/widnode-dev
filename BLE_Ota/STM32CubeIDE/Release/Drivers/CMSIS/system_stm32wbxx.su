@@ -1,0 +1,5 @@
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/system_stm32wbxx.c:214:16:CheckFwAppValidity	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/system_stm32wbxx.c:254:13:JumpFwApp	8	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/system_stm32wbxx.c:352:13:JumpSelectionOnPowerUp	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/system_stm32wbxx.c:395:6:SystemInit	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/system_stm32wbxx.c:538:6:SystemCoreClockUpdate	0	static

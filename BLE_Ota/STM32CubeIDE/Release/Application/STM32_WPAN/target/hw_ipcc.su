@@ -1,0 +1,16 @@
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:179:6:HW_IPCC_Enable	8	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:209:6:HW_IPCC_Init	16	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:225:6:HW_IPCC_BLE_Init	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:232:6:HW_IPCC_BLE_SendCmd	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:248:6:HW_IPCC_BLE_SendAclData	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:265:13:HW_IPCC_BLE_AclDataAckNot	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:266:13:HW_IPCC_BLE_RxEvtNot	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:271:6:HW_IPCC_SYS_Init	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:278:6:HW_IPCC_SYS_SendCmd	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:304:13:HW_IPCC_SYS_CmdEvtNot	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:137:6:HW_IPCC_Tx_Handler	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:305:13:HW_IPCC_SYS_EvtNot	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:622:6:HW_IPCC_MM_SendFreeBuf	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:653:6:HW_IPCC_TRACES_Init	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:669:13:HW_IPCC_TRACES_EvtNot	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/STM32_WPAN/Target/hw_ipcc.c:73:6:HW_IPCC_Rx_Handler	8	static

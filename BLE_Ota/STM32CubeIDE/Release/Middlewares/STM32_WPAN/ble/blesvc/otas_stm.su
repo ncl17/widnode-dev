@@ -1,0 +1,3 @@
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/ble/svc/Src/otas_stm.c:129:30:OTAS_Event_Handler	24	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/ble/svc/Src/otas_stm.c:228:6:OTAS_STM_Init	48	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/ble/svc/Src/otas_stm.c:295:12:OTAS_STM_UpdateChar	16	static

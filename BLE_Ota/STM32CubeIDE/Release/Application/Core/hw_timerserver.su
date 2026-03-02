@@ -1,0 +1,12 @@
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:104:17:ReadRtcSsrValue	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:291:17:ReturnTimeElapsed	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:392:13:RescheduleTimerList	24	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:249:13:UnlinkTimer	20	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:586:6:HW_TS_Init	16	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:672:22:HW_TS_Create	28	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:726:6:HW_TS_Stop	24	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:717:6:HW_TS_Delete	8	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:798:6:HW_TS_Start	32	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:852:10:HW_TS_RTC_ReadLeftTicksToCount	16	static,ignoring_inline_asm
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:885:13:HW_TS_RTC_Int_AppNot	0	static
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/hw_timerserver.c:484:6:HW_TS_RTC_Wakeup_Handler	40	static,ignoring_inline_asm

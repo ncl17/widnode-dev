@@ -1,0 +1,10 @@
+../../../../../../../Drivers/CMSIS/Include/core_cm4.h:1933:34:__NVIC_SystemReset	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:188:13:APPE_SysStatusNot	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:202:13:APPE_SysUserEvtRx	7
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:61:6:APPE_Init	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:383:6:UTIL_SEQ_Idle	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:401:6:UTIL_SEQ_EvtIdle	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:408:6:shci_notify_asynch_evt	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:414:6:shci_cmd_resp_release	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:420:6:shci_cmd_resp_wait	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Projects/P-NUCLEO-WB55.Nucleo/Applications/BLE/BLE_Ota/Core/Src/app_entry.c:426:6:HAL_GPIO_EXTI_Callback	4

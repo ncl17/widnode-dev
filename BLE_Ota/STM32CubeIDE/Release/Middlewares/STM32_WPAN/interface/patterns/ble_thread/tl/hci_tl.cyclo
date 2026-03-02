@@ -1,0 +1,7 @@
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:68:6:hci_init	2
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:80:6:hci_user_evt_proc	7
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:138:6:hci_resume_flow	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:292:13:hci_cmd_resp_wait	2
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:151:5:hci_send_req	10
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:301:13:hci_cmd_resp_release	1
+N:/STM32/STM32Cube_FW_WB_V1.20.0/Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c:275:13:TlEvtReceived	2
